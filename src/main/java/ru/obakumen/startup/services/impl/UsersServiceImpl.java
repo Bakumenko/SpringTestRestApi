@@ -31,9 +31,18 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public List<User> findRoleUserAll() {
-        Role role = rolesRepository.findRoleByName("USER");
+        Role role = rolesRepository.findRoleByName("ROLE_USER");
         List<User> users = usersRepository.findUsersByRole(role);
         return users;
+    }
+
+    @Override
+    public List<User> findUsersByRoleName(String roleName) {
+        Role role = rolesRepository.findRoleByName(roleName);
+        if (role != null)
+            return usersRepository.findUsersByRole(role);
+        else
+            return null;
     }
 
     @Override
@@ -43,22 +52,27 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public User findUserByUsernameAndRoleUser(String username) {
-        Role role = rolesRepository.findRoleByName("USER");
+        Role role = rolesRepository.findRoleByName("ROLE_USER");
         User user = usersRepository.findUserByUsernameAndRole(username, role);
         return user;
     }
 
     @Override
-    public User createNewUser(User new_user) {
-        Role role = rolesRepository.findRoleByName("USER");
-        new_user.setRole(role);
-        //new_user.setPassword(passwordEncoder.encode(new_user.getPassword()));
-        return usersRepository.save(new_user);
+    public User createNew(User newUser) {
+        return usersRepository.save(newUser);
     }
 
     @Override
-    public Long delete(String username) {
-        return usersRepository.deleteByUsername(username);
+    public User createNewUser(User newUser) {
+        Role role = rolesRepository.findRoleByName("ROLE_USER");
+        newUser.setRole(role);
+        //new_user.setPassword(passwordEncoder.encode(new_user.getPassword()));
+        return usersRepository.save(newUser);
+    }
+
+    @Override
+    public Long deleteUser(String username) {
+        return usersRepository.deleteUserByUsername(username);
     }
 
 

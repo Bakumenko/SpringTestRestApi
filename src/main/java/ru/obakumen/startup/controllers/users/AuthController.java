@@ -26,6 +26,7 @@ public class AuthController {
         String token = jwtProvider.generateToken(user.getUsername());
         JSONObject json= new JSONObject();
         json.put("token", token);
+        json.put("role", user.getRole().getName());
         return json;
     }
 

@@ -5,4 +5,6 @@ import ru.obakumen.startup.models.Role;
 
 public interface RolesRepository extends JpaRepository<Role, Long> {
     Role findRoleByName(String name);
+
+    Long deleteByName(String roleName);
 }

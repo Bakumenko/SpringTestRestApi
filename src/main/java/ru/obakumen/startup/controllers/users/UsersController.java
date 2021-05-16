@@ -21,17 +21,17 @@ public class UsersController {
         return usersService.findRoleUserAll();
     }
 
-    @GetMapping("/users/{username}")
+    @GetMapping("/{username}")
     public ResponseEntity<?> getRoleUserByUsername(@PathVariable String username) {
         User finded_user =  usersService.findUserByUsernameAndRoleUser(username);
         if (finded_user != null)
             return new ResponseEntity<>(finded_user, HttpStatus.OK);
         else
-            return new ResponseEntity<>(finded_user, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
     }
 
-    @PutMapping("/users/{username}")
+    @PutMapping("/{username}")
     public ResponseEntity<?> updateUserByUsername(@PathVariable String username, @RequestBody User new_user) {
         User finded_user = usersService.findUserByUsernameAndRoleUser(username);
         if (finded_user == null)
@@ -40,13 +40,5 @@ public class UsersController {
             BeanUtils.copyProperties(new_user, finded_user,"id");
             return new ResponseEntity<>(usersService.createNewUser(finded_user), HttpStatus.OK);
         }
-    }
-
-    @DeleteMapping("/users/{username}")
-    public JSONObject delete(@PathVariable String username) {
-        JSONObject json= new JSONObject();
-        Long count = usersService.delete(username);
-        json.put("count of deleting", count);
-        return json;
     }
 }

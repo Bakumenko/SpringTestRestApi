@@ -12,13 +12,17 @@ public interface UsersService {
 
     List<User> findRoleUserAll();
 
+    List<User> findUsersByRoleName(String roleName);
+
     User findUserByUsername(String username);
 
     User findUserByUsernameAndPassword(String username, String password);
 
     User findUserByUsernameAndRoleUser(String username);
 
-    User createNewUser(User new_user);
+    User createNew(User newUser);
 
-    Long delete(String username);
+    User createNewUser(User newUser);
+
+    Long deleteUser(String username);
 }
