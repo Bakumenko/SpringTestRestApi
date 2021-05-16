@@ -7,7 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.obakumen.startup.models.User;
+import ru.obakumen.startup.security.CustomUserDetailsService;
+import ru.obakumen.startup.security.jwt.JwtProvider;
 import ru.obakumen.startup.services.UsersService;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -17,7 +22,7 @@ public class UsersController {
     private UsersService usersService;
 
     @GetMapping("")
-    public List<User> getAllRoleUser() {
+    public List<User> getAllRoleUser(ServletRequest servletRequest) {
         return usersService.findRoleUserAll();
     }
 

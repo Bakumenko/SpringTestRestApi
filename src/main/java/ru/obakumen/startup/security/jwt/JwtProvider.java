@@ -16,6 +16,8 @@ public class JwtProvider {
     @Value("$(jwt.token.secret)")
     private String jwtSecret;
 
+    private String currentUsername;
+
     public String generateToken(String username) {
         Date date = Date.from(LocalDate.now().plusDays(15).atStartOfDay(ZoneId.systemDefault()).toInstant());
         return Jwts.builder()
@@ -35,8 +37,13 @@ public class JwtProvider {
         return false;
     }
 
+    public String getCurrentUsername() {
+        return currentUsername;
+    }
+
     public String getUsernameFromToken(String token) {
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+        this.currentUsername = claims.getSubject();
         return claims.getSubject();
     }
 }
