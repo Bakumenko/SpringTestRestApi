@@ -24,7 +24,7 @@ public class AuthController {
     @GetMapping("/user/current")
     public ResponseEntity<?> getCurrentUser() {
         String username = jwtProvider.getCurrentUsername();
-        User finded_user =  usersService.findUserByUsernameAndRoleUser(username);
+        User finded_user =  usersService.findUserByUsername(username);
         if (finded_user != null)
             return new ResponseEntity<>(finded_user, HttpStatus.OK);
         else
