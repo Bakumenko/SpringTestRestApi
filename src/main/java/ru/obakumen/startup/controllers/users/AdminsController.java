@@ -23,11 +23,6 @@ public class AdminsController {
     @Autowired
     private RolesService rolesService;
 
-//    @GetMapping("/users")
-//    public List<User> getAll() {
-//        return usersService.findAll();
-//    }
-
     @GetMapping("/users")
     public List<User> getUsersByRole(@RequestParam (required = false) String role) {
         if (role == null)
