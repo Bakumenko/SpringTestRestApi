@@ -19,4 +19,19 @@ public class ProjectsServiceImpl implements ProjectsService {
     public List<Project> findAll() {
         return projectsRepository.findAll();
     }
+
+    @Override
+    public Project findProjectById(Long id) {
+        return projectsRepository.findProjectById(id);
+    }
+
+    @Override
+    public Long deleteById(Long id) {
+        return projectsRepository.deleteProjectById(id);
+    }
+
+    @Override
+    public Project createNewProject(Project newProject) {
+        return projectsRepository.save(newProject);
+    }
 }

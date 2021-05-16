@@ -7,4 +7,10 @@ import java.util.List;
 
 public interface ProjectsService {
     List<Project> findAll();
+
+    Project findProjectById(Long id);
+
+    Long deleteById(Long id);
+
+    Project createNewProject(Project newProject);
 }

@@ -6,4 +6,7 @@ import ru.obakumen.startup.models.Project;
 
 @Repository
 public interface ProjectsRepository extends JpaRepository<Project, Long> {
+    Project findProjectById(Long id);
+
+    Long deleteProjectById(Long id);
 }
