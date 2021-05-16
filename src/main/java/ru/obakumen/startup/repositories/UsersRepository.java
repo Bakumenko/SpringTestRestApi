@@ -12,7 +12,8 @@ import java.util.List;
 @Repository
 public interface UsersRepository extends JpaRepository<User, Long> {
 
-    User findOneByUsername(String username);
+    User findUserByUsername(String username);
+    User findUserByUsernameAndRole(String username, Role role);
+    List<User> findUsersByRole(Role role);
     Long deleteByUsername(String username);
-    List<User> findUserByRole(Role role);
 }

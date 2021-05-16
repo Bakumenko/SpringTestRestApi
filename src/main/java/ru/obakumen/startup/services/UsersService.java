@@ -7,13 +7,18 @@ import ru.obakumen.startup.models.User;
 import java.util.List;
 
 public interface UsersService {
+
     List<User> findAll();
 
-    List<User> findByRole(Role role);
+    List<User> findRoleUserAll();
 
-    User findOneByUsername(String username);
+    User findUserByUsername(String username);
 
-    User createNew(User user);
+    User findUserByUsernameAndPassword(String username, String password);
+
+    User findUserByUsernameAndRoleUser(String username);
+
+    User createNewUser(User new_user);
 
     Long delete(String username);
 }

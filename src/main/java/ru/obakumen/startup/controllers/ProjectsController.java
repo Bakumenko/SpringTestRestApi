@@ -10,7 +10,7 @@ import ru.obakumen.startup.services.ProjectsService;
 import java.util.List;
 
 @RestController
-public class ProjectController {
+public class ProjectsController {
     @Autowired
     private ProjectsService projectsService;
 

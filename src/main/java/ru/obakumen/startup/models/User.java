@@ -16,8 +16,8 @@ public class User {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "hash_password")
-    private String hashPassword;
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "first_name")
     private String firstName;
@@ -25,18 +25,26 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "role", nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Column(name = "age")
+    private int age;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
+
+//    @Column(name = "role", nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    private Role role;
 
     public User() {
     }
 
-    public User(String username, String hashPassword, String firstName, String lastName, Role role) {
+    public User(String username, String password, String firstName, String lastName, int age, Role role) {
         this.username = username;
-        this.hashPassword = hashPassword;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.age = age;
         this.role = role;
     }
 
@@ -56,12 +64,12 @@ public class User {
         this.username = username;
     }
 
-    public String getHashPassword() {
-        return hashPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setHashPassword(String hashPassword) {
-        this.hashPassword = hashPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -78,6 +86,14 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public Role getRole() { return role; }
