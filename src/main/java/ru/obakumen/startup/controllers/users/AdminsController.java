@@ -63,12 +63,12 @@ public class AdminsController {
     }
 
     @PostMapping("/roles")
-    public Role createNewRole(Role role) {
+    public Role createNewRole(@RequestBody Role role) {
         return rolesService.createNew(role);
     }
 
-    @DeleteMapping("/roles")
-    public Long deleteRole(String roleName) {
+    @DeleteMapping("/roles/{roleName}")
+    public Long deleteRole(@PathVariable String roleName) {
         return rolesService.deleteRole(roleName);
     }
 

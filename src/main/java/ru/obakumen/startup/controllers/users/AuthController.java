@@ -9,14 +9,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.obakumen.startup.dto.LoginDto;
+import ru.obakumen.startup.models.Role;
 import ru.obakumen.startup.models.User;
 import ru.obakumen.startup.security.jwt.JwtProvider;
+import ru.obakumen.startup.services.RolesService;
 import ru.obakumen.startup.services.UsersService;
 
 @RestController
 public class AuthController {
     @Autowired
     private UsersService usersService;
+
+    @Autowired
+    private RolesService rolesService;
 
     @Autowired
     private JwtProvider jwtProvider;
@@ -46,6 +51,8 @@ public class AuthController {
         if (usersService.findUserByUsername(user.getUsername()) != null)
             return new ResponseEntity<>(null, HttpStatus.METHOD_NOT_ALLOWED);
         else {
+            Role role = rolesService.findByRoleName("ROLE_USER");
+            user.setRole(role);
             return new ResponseEntity<>(usersService.createNewUser(user), HttpStatus.OK);
             //return ResponseEntity.ok(userService.createNew(user));
         }

@@ -6,8 +6,10 @@ import ru.obakumen.startup.models.Role;
 import ru.obakumen.startup.repositories.RolesRepository;
 import ru.obakumen.startup.services.RolesService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Transactional
 @Service
 public class RolesServiceImpl implements RolesService {
 
@@ -35,6 +37,6 @@ public class RolesServiceImpl implements RolesService {
 
     @Override
     public Long deleteRole(String roleName) {
-        return rolesRepository.deleteByName(roleName);
+        return rolesRepository.deleteRoleByName(roleName);
     }
 }
