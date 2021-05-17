@@ -1,9 +1,9 @@
 package ru.obakumen.startup.models;
 
-import org.springframework.lang.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -32,6 +32,10 @@ public class User {
     @JoinColumn(name = "role_id")
     private Role role;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Project> projects;
+
 //    @Column(name = "role", nullable = false)
 //    @Enumerated(EnumType.STRING)
 //    private Role role;
@@ -54,6 +58,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> project) {
+        this.projects = project;
     }
 
     public String getUsername() {

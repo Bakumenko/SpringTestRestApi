@@ -9,9 +9,12 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.logging.Logger;
 
 @Component
 public class JwtProvider {
+
+    protected static Logger logger = Logger.getLogger("service");
 
     @Value("$(jwt.token.secret)")
     private String jwtSecret;
@@ -32,7 +35,7 @@ public class JwtProvider {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            System.out.println("invalid token");
+            logger.warning("invalid token");
         }
         return false;
     }

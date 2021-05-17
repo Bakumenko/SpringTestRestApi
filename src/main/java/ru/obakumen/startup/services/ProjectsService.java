@@ -12,5 +12,5 @@ public interface ProjectsService {
 
     Long deleteById(Long id);
 
-    Project createNewProject(Project newProject);
+    Project createNewProject(Project newProject, String currentUserUsername);
 }

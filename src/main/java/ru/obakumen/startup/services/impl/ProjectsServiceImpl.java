@@ -15,6 +15,9 @@ public class ProjectsServiceImpl implements ProjectsService {
     @Autowired
     private ProjectsRepository projectsRepository;
 
+    @Autowired
+    private UsersRepository usersRepository;
+
     @Override
     public List<Project> findAll() {
         return projectsRepository.findAll();
@@ -31,7 +34,9 @@ public class ProjectsServiceImpl implements ProjectsService {
     }
 
     @Override
-    public Project createNewProject(Project newProject) {
+    public Project createNewProject(Project newProject, String currentUserUsername) {
+        User currentUser = usersRepository.findUserByUsername(currentUserUsername);
+        newProject.setUser(currentUser);
         return projectsRepository.save(newProject);
     }
 }

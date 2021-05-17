@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.obakumen.startup.dto.UserDto;
+import ru.obakumen.startup.models.Project;
 import ru.obakumen.startup.models.Role;
 import ru.obakumen.startup.models.User;
 import ru.obakumen.startup.services.RolesService;
@@ -38,6 +39,17 @@ public class AdminsController {
             return new ResponseEntity<>(user, HttpStatus.OK);
         else
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/users/{username}/projects")
+    public ResponseEntity<?> getProjectsByRoleUserAndUsername(@PathVariable String username) {
+        User findedUser =  usersService.findUserByUsernameAndRoleUser(username);
+        if (findedUser == null)
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        else {
+            List<Project> projects = findedUser.getProjects();
+            return new ResponseEntity<>(projects, HttpStatus.OK);
+        }
     }
 
     @PostMapping("/users")

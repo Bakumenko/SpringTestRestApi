@@ -9,8 +9,8 @@ create table users
     last_name   varchar(50),
     username    varchar(50),
     role_id     integer
-                constraint users_role_table_id_fk
-                references role_table
+                constraint users_roles_id_fk
+                references roles
 );
 
 alter table users

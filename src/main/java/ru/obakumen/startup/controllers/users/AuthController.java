@@ -4,10 +4,7 @@ import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.obakumen.startup.dto.LoginDto;
 import ru.obakumen.startup.models.Role;
 import ru.obakumen.startup.models.User;
@@ -32,6 +29,22 @@ public class AuthController {
         User finded_user =  usersService.findUserByUsername(username);
         if (finded_user != null)
             return new ResponseEntity<>(finded_user, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping ("/user/current")
+    public Long deleteCurrentUser() {
+        String username = jwtProvider.getCurrentUsername();
+        return usersService.deleteUser(username);
+    }
+
+    @GetMapping("/user/current/projects")
+    public ResponseEntity<?> getCurrentUserProjects() {
+        String username = jwtProvider.getCurrentUsername();
+        User finded_user =  usersService.findUserByUsername(username);
+        if (finded_user != null)
+            return new ResponseEntity<>(finded_user.getProjects(), HttpStatus.OK);
         else
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
