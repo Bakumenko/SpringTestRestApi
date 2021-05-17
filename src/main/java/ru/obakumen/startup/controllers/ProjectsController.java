@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.obakumen.startup.dto.ProjectDto;
 import ru.obakumen.startup.models.Project;
 import ru.obakumen.startup.models.User;
 import ru.obakumen.startup.security.jwt.JwtProvider;
@@ -28,9 +29,11 @@ public class ProjectsController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getProject(@PathVariable Long id) {
         Project project = projectsService.findProjectById(id);
-        if (project != null)
-            return new ResponseEntity<>(project, HttpStatus.OK);
-        else
+        if (project != null) {
+            ProjectDto projectDto = new ProjectDto(project.getId(), project.getTitle(), project.getDescription(),
+                    project.getIncome(), project.getUser().getUsername());
+            return new ResponseEntity<>(projectDto, HttpStatus.OK);
+        } else
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
