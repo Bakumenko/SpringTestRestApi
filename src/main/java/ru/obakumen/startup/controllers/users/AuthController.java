@@ -23,6 +23,11 @@ public class AuthController {
     @Autowired
     private JwtProvider jwtProvider;
 
+    @GetMapping("")
+    public String greeting() {
+        return "Hello, let's go /auth for login!";
+    }
+
     @GetMapping("/user/current")
     public ResponseEntity<?> getCurrentUser() {
         String username = jwtProvider.getCurrentUsername();
