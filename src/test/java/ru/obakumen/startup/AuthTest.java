@@ -1,12 +1,15 @@
 package ru.obakumen.startup;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.obakumen.startup.models.Role;
@@ -25,22 +28,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class AuthTest {
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private UsersService usersService;
-
-    @Autowired
+    @MockBean
     private RolesRepository rolesRepository;
 
     @Autowired
+    @MockBean
     private UsersRepository usersRepository;
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private JwtProvider jwtProvider;
 
     private String testRoleName = "ROLE_ADMIN";
     private String testUserUsername = "test_user";
@@ -49,29 +45,26 @@ public class AuthTest {
     private String testUserLastName = "TestLastName";
     private int testAge = 30;
 
-    @BeforeEach
-    public void addTestUserAndRole() {
-//        Role testRole = new Role(testRoleName);
-//        rolesRepository.save(testRole);
-//        Role testRole = rolesRepository.findRoleByName(testRoleName);
-//        usersRepository.save(new User(testUserUsername, testUserPassword,
-//                testUserFirstName, testUserLastName, testAge, testRole));
+    @Before
+    public void setUp() {
+        Role testRole = rolesRepository.findRoleByName(testRoleName);
+        User testUser = new User(testUserUsername, testUserPassword,
+                testUserFirstName, testUserLastName, testAge, testRole);
+
+        Mockito.when(usersRepository.findUserByUsername(Mockito.any())).thenReturn(testUser);
     }
 
-    @AfterEach
-    public void deleteTestUserAndRole() {
-       //rolesRepository.deleteRoleByName(testRoleName);
-       //usersRepository.deleteUserByUsername(testUserUsername);
-    }
 
     @Test
     public void getUserTest() throws Exception {
-        User testUser = usersRepository.findUserByUsername(testUserUsername);
+        User user = usersRepository.findUserByUsername(testUserUsername);
         //String token = jwtProvider.generateToken(testUser.getUsername());
-        mockMvc.perform(get("/admin/users/{test_user_username}", testUser.getUsername())
+        mockMvc.perform(get("/admin/users/{test_user_username}", user.getUsername())
       //          .header("Authorization", "Bearer " + token)
         )
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username").value(testUserUsername))
+                .andExpect(jsonPath("$.age").value(testAge));
     }
 
     @Test
